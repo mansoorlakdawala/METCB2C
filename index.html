@@ -1,16 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<script>
-   window.open('https://metcmnb2c.b2clogin.com/MetcMNB2C.onmicrosoft.com/B2C_1A_signup_signin_saml/samlp/sso/logout', '_self').focus();
-   sessionStorage.clear();
-   window.open('https://tssupplier.metc.state.mn.us:8001/psp/ps/SUPPLIER/ERP/c/MAINTAIN_VENDORS.M_SUP_TAXGUIDE.GBL', '_self').focus();
+<meta charset="UTF-8">
+<title>Logout from Azure B2C</title>
+<script type="text/javascript">
  
-</script>
+        // Replace the placeholders with your actual tenant and policy information
+        var tenantName = "metcmnb2c";
+        var policyName = "B2C_1A_signup_signin_saml";
+        var redirectUri = "https://tssupplier.metc.state.mn.us:8001/psp/ps/SUPPLIER/ERP/c/MAINTAIN_VENDORS.M_SUP_TAXGUIDE.GBL";
  
+        var logoutUrl = 'https://metcmnb2c.b2clogin.com/MetcMNB2C.onmicrosoft.com/B2C_1A_signup_signin_saml/samlp/sso/logout';
+ 
+                // Perform logout and wait for completion
+                async function performLogout() {
+            await fetch(logoutUrl, { method: 'GET' });
+            redirectToNewSite();
+        }
+ 
+        // Function to redirect after logout
+        function redirectToNewSite() {
+            window.location.replace(redirectUri);
+        }
+ 
+ 
+        // Call performLogout when the page loads
+        window.addEventListener('load', performLogout);
+ 
+        // Detect user activity (click or keypress) to reset the idle timeout
+        var idleTimeout;
+        function resetIdleTimeout() {
+            clearTimeout(idleTimeout);
+            idleTimeout = setTimeout(redirectToNewSite, 100); // Redirect after 60 seconds of inactivity
+        }
+ 
+        // Listen for user activity events
+        ['click', 'keydown'].forEach(evt => document.addEventListener(evt, resetIdleTimeout));
+ 
+    </script>
 </head>
- 
 <body>
- 
+<!-- You can customize the UI as needed -->
 </body>
 </html>
